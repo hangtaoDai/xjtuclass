@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjtu.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.xjtu.model.Course">
+    <id column="courseId" jdbcType="INTEGER" property="courseid" />
+    <result column="courseName" jdbcType="VARCHAR" property="coursename" />
+    <result column="courseLink1" jdbcType="VARCHAR" property="courselink1" />
+    <result column="courseLink2" jdbcType="VARCHAR" property="courselink2" />
+    <result column="courseLink3" jdbcType="VARCHAR" property="courselink3" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    courseId, courseName, courseLink1, courseLink2, courseLink3
+  </sql>
+  <select id="selectByExample" parameterType="com.xjtu.model.CourseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where courseId = #{courseid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from course
+    where courseId = #{courseid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xjtu.model.CourseExample">
+    delete from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xjtu.model.Course">
+    insert into course (courseId, courseName, courseLink1, 
+      courseLink2, courseLink3)
+    values (#{courseid,jdbcType=INTEGER}, #{coursename,jdbcType=VARCHAR}, #{courselink1,jdbcType=VARCHAR}, 
+      #{courselink2,jdbcType=VARCHAR}, #{courselink3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xjtu.model.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseid != null">
+        courseId,
+      </if>
+      <if test="coursename != null">
+        courseName,
+      </if>
+      <if test="courselink1 != null">
+        courseLink1,
+      </if>
+      <if test="courselink2 != null">
+        courseLink2,
+      </if>
+      <if test="courselink3 != null">
+        courseLink3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseid != null">
+        #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="coursename != null">
+        #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="courselink1 != null">
+        #{courselink1,jdbcType=VARCHAR},
+      </if>
+      <if test="courselink2 != null">
+        #{courselink2,jdbcType=VARCHAR},
+      </if>
+      <if test="courselink3 != null">
+        #{courselink3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xjtu.model.CourseExample" resultType="java.lang.Long">
+    select count(*) from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update course
+    <set>
+      <if test="record.courseid != null">
+        courseId = #{record.courseid,jdbcType=INTEGER},
+      </if>
+      <if test="record.coursename != null">
+        courseName = #{record.coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courselink1 != null">
+        courseLink1 = #{record.courselink1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courselink2 != null">
+        courseLink2 = #{record.courselink2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courselink3 != null">
+        courseLink3 = #{record.courselink3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update course
+    set courseId = #{record.courseid,jdbcType=INTEGER},
+      courseName = #{record.coursename,jdbcType=VARCHAR},
+      courseLink1 = #{record.courselink1,jdbcType=VARCHAR},
+      courseLink2 = #{record.courselink2,jdbcType=VARCHAR},
+      courseLink3 = #{record.courselink3,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xjtu.model.Course">
+    update course
+    <set>
+      <if test="coursename != null">
+        courseName = #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="courselink1 != null">
+        courseLink1 = #{courselink1,jdbcType=VARCHAR},
+      </if>
+      <if test="courselink2 != null">
+        courseLink2 = #{courselink2,jdbcType=VARCHAR},
+      </if>
+      <if test="courselink3 != null">
+        courseLink3 = #{courselink3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where courseId = #{courseid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xjtu.model.Course">
+    update course
+    set courseName = #{coursename,jdbcType=VARCHAR},
+      courseLink1 = #{courselink1,jdbcType=VARCHAR},
+      courseLink2 = #{courselink2,jdbcType=VARCHAR},
+      courseLink3 = #{courselink3,jdbcType=VARCHAR}
+    where courseId = #{courseid,jdbcType=INTEGER}
+  </update>
+</mapper>
